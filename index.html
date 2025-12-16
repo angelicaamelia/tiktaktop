@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tik Tak Top Course</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --bg0: #070a18;
+        --bg1: #0b1226;
+        --glass: rgba(255, 255, 255, 0.08);
+        --glass2: rgba(255, 255, 255, 0.12);
+        --stroke: rgba(255, 255, 255, 0.14);
+        --text: rgba(255, 255, 255, 0.88);
+        --muted: rgba(255, 255, 255, 0.62);
+        --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+        --shadow2: 0 14px 40px rgba(15, 23, 42, 0.18);
+        --brandA: #60a5fa; /* blue */
+        --brandB: #a78bfa; /* violet */
+        --brandC: #34d399; /* green */
+        --brandD: #fb7185; /* rose */
+        --radius: 22px;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: radial-gradient(
+            1200px 600px at 15% 10%,
+            rgba(96, 165, 250, 0.22),
+            transparent 60%
+          ),
+          radial-gradient(
+            1000px 500px at 90% 20%,
+            rgba(167, 139, 250, 0.2),
+            transparent 60%
+          ),
+          radial-gradient(
+            900px 450px at 40% 90%,
+            rgba(52, 211, 153, 0.12),
+            transparent 60%
+          ),
+          linear-gradient(135deg, var(--bg0), var(--bg1));
+        color: var(--text);
+      }
+
+      /* subtle animated blobs */
+      .blob {
+        position: absolute;
+        width: 520px;
+        height: 520px;
+        filter: blur(35px);
+        opacity: 0.35;
+        border-radius: 999px;
+        animation: floaty 10s ease-in-out infinite;
+        z-index: 0;
+      }
+      .blob.b1 {
+        background: radial-gradient(
+          circle,
+          rgba(96, 165, 250, 0.85),
+          transparent 55%
+        );
+        top: -180px;
+        left: -140px;
+      }
+      .blob.b2 {
+        background: radial-gradient(
+          circle,
+          rgba(167, 139, 250, 0.85),
+          transparent 55%
+        );
+        top: -140px;
+        right: -180px;
+        animation-delay: -2.5s;
+      }
+      .blob.b3 {
+        background: radial-gradient(
+          circle,
+          rgba(52, 211, 153, 0.7),
+          transparent 55%
+        );
+        bottom: -220px;
+        left: 20%;
+        animation-delay: -5s;
+      }
+      @keyframes floaty {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+        }
+        50% {
+          transform: translate(18px, -14px) scale(1.05);
+        }
+      }
+
+      /* Navbar glass */
+      .navbar {
+        background: rgba(10, 14, 30, 0.55) !important;
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .nav-link {
+        color: rgba(255, 255, 255, 0.82) !important;
+        font-weight: 600;
+        letter-spacing: 0.2px;
+      }
+      .nav-link:hover {
+        color: #fff !important;
+      }
+      .nav-link.active {
+        color: #fff !important;
+        position: relative;
+      }
+      .nav-link.active::after {
+        content: "";
+        position: absolute;
+        left: 0.5rem;
+        right: 0.5rem;
+        bottom: 0.15rem;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          var(--brandA),
+          var(--brandB),
+          var(--brandC)
+        );
+        border-radius: 999px;
+        opacity: 0.9;
+      }
+
+      /* Brand (logo image) */
+      .logo-img {
+        width: 44px;
+        height: 44px;
+        object-fit: cover;
+        border-radius: 16px;
+        background: #fff;
+        padding: 4px;
+        box-shadow: 0 14px 40px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+      }
+      .navbar-brand:hover .logo-img {
+        transform: rotate(-2deg) scale(1.06);
+        box-shadow: 0 18px 55px rgba(0, 0, 0, 0.38);
+      }
+
+      /* Sections */
+      section {
+        padding: 84px 0;
+        position: relative;
+        z-index: 1;
+      }
+      .section-title {
+        font-weight: 900;
+        letter-spacing: -0.6px;
+      }
+      .section-sub {
+        color: var(--muted);
+        max-width: 820px;
+      }
+
+      /* Hero */
+      .hero {
+        min-height: 88vh;
+        display: grid;
+        place-items: center;
+        padding-top: 90px;
+        position: relative;
+        overflow: hidden;
+      }
+      .hero .hero-card {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.1),
+          rgba(255, 255, 255, 0.06)
+        );
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: calc(var(--radius) + 8px);
+        box-shadow: var(--shadow);
+        padding: 38px 28px;
+      }
+      .hero-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.55rem;
+        padding: 0.45rem 0.85rem;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        color: rgba(255, 255, 255, 0.86);
+        font-weight: 700;
+        font-size: 0.92rem;
+      }
+      .hero-title {
+        font-weight: 950;
+        letter-spacing: -1px;
+        line-height: 1.05;
+      }
+      .hero-title span {
+        background: linear-gradient(
+          90deg,
+          var(--brandA),
+          var(--brandB),
+          var(--brandC)
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .btn-fancy {
+        border: 0;
+        font-weight: 900;
+        border-radius: 18px;
+        padding: 0.85rem 1.1rem;
+        box-shadow: 0 14px 40px rgba(96, 165, 250, 0.22);
+        background: linear-gradient(135deg, var(--brandA), var(--brandB));
+      }
+      .btn-fancy:hover {
+        filter: brightness(1.05);
+        transform: translateY(-1px);
+      }
+      .btn-ghost {
+        border-radius: 18px;
+        padding: 0.85rem 1.1rem;
+        font-weight: 900;
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        background: rgba(255, 255, 255, 0.06);
+        color: #fff;
+      }
+      .btn-ghost:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+      }
+
+      /* Glass cards */
+      .glass {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.1),
+          rgba(255, 255, 255, 0.06)
+        );
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow2);
+      }
+      .glass.hoverable {
+        transition: transform 0.22s ease, box-shadow 0.22s ease,
+          border-color 0.22s ease;
+      }
+      .glass.hoverable:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+        border-color: rgba(255, 255, 255, 0.24);
+      }
+
+      /* Icon bubble */
+      .ib {
+        width: 52px;
+        height: 52px;
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 950;
+        letter-spacing: 0.3px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: rgba(255, 255, 255, 0.08);
+      }
+      .ib.a {
+        color: var(--brandA);
+      }
+      .ib.b {
+        color: var(--brandB);
+      }
+      .ib.c {
+        color: var(--brandC);
+      }
+      .ib.d {
+        color: var(--brandD);
+      }
+
+      /* Form controls */
+      .form-control,
+      .form-select {
+        border-radius: 18px;
+        padding: 0.9rem 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--text);
+      }
+      .form-control::placeholder {
+        color: rgba(255, 255, 255, 0.55);
+      }
+      .form-control:focus,
+      .form-select:focus {
+        border-color: rgba(96, 165, 250, 0.55);
+        box-shadow: 0 0 0 0.25rem rgba(96, 165, 250, 0.2);
+        background: rgba(255, 255, 255, 0.08);
+        color: #fff;
+      }
+      .form-select option {
+        color: #0b1020;
+      }
+
+      /* Footer */
+      footer {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(0, 0, 0, 0.15);
+        backdrop-filter: blur(10px);
+      }
+      .foot-muted {
+        color: rgba(255, 255, 255, 0.68);
+      }
+
+      /* Small helper */
+      .hr-soft {
+        height: 1px;
+        border: 0;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        opacity: 0.9;
+      }
+
+      /* Accessibility: reduce motion */
+      @media (prefers-reduced-motion: reduce) {
+        .blob {
+          animation: none;
+        }
+        .glass.hoverable:hover {
+          transform: none;
+        }
+        .btn-fancy:hover {
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+
+  <body
+    data-bs-spy="scroll"
+    data-bs-target="#topNav"
+    data-bs-offset="90"
+    tabindex="0"
+  >
+    <!-- Floating blobs (background) -->
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+
+    <!-- NAVBAR (sesuai soal: Home, About, Layanan (2 section), Koleksi + logo kiri) -->
+    <nav id="topNav" class="navbar navbar-expand-lg navbar-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="#home">
+          <img src="tt.jpg" alt="Logo Tik Tak Top" class="logo-img" />
+          <div class="d-flex flex-column lh-1">
+            <span class="fw-bold">Tik Tak Top</span>
+            <small class="text-white-50">Computer Course</small>
+          </div>
+        </a>
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+            <li class="nav-item">
+              <a class="nav-link active" href="#home">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#about">About</a>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#layanan"
+                role="button"
+                data-bs-toggle="dropdown"
+              >
+                Layanan
+              </a>
+              <ul class="dropdown-menu dropdown-menu-dark">
+                <li>
+                  <a class="dropdown-item" href="#pendaftaran"
+                    >Pendaftaran Anggota</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#info-layanan"
+                    >Informasi Layanan</a
+                  >
+                </li>
+              </ul>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="#koleksi">Koleksi</a>
+            </li>
+
+            <li class="nav-item ms-lg-2">
+              <a class="btn btn-fancy text-white" href="#pendaftaran"
+                >Daftar Sekarang</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- HERO / JUMBOTRON (teks harus di tengah) -->
+    <header id="home" class="hero">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-10 col-xl-9">
+            <div class="hero-card text-center">
+              <div class="hero-pill mx-auto mb-3">
+                <span>Online Registration</span>
+                <span class="text-white-50">•</span>
+                <span class="text-white-50">Modern • Fast</span>
+              </div>
+
+              <h1 class="display-5 hero-title mb-3">
+                Selamat Datang di <span>Tik Tak Top Course</span>
+              </h1>
+
+              <div class="d-flex justify-content-center gap-2 flex-wrap">
+                <a class="btn btn-fancy text-white btn-lg" href="#pendaftaran"
+                  >Isi Form Pendaftaran</a
+                >
+                <a class="btn btn-ghost btn-lg" href="#koleksi">Lihat Kelas</a>
+              </div>
+
+              <hr class="hr-soft my-4" />
+
+              <div class="row g-3 text-start">
+                <div class="col-md-4">
+                  <div class="d-flex gap-3 align-items-start">
+                    <div class="ib a">⚡</div>
+                    <div>
+                      <div class="fw-bold">Cepat</div>
+                      <div class="small" style="color: var(--muted)">
+                        Proses daftar tanpa ribet.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="d-flex gap-3 align-items-start">
+                    <div class="ib b">🎯</div>
+                    <div>
+                      <div class="fw-bold">Terarah</div>
+                      <div class="small" style="color: var(--muted)">
+                        Program jelas & terstruktur.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="d-flex gap-3 align-items-start">
+                    <div class="ib c">🏆</div>
+                    <div>
+                      <div class="fw-bold">Sertifikat</div>
+                      <div class="small" style="color: var(--muted)">
+                        Dapat setelah lulus kelas.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- hero-card -->
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="container">
+        <div class="row g-4 align-items-center">
+          <div class="col-lg-6">
+            <h2 class="section-title mb-2">About</h2>
+            <p class="section-sub">
+              Tik Tak Top Course adalah lembaga kursus komputer yang menyediakan
+              program pembelajaran untuk meningkatkan skill praktis: desain,
+              web, dan data. Website ini dibuat menggunakan Bootstrap agar
+              responsif dan rapi.
+            </p>
+
+            <div class="row g-3 mt-3">
+              <div class="col-md-6">
+                <div class="glass p-4 hoverable h-100">
+                  <div class="d-flex gap-3">
+                    <div class="ib a">A+</div>
+                    <div>
+                      <div class="fw-bold">Materi Terstruktur</div>
+                      <div class="small" style="color: var(--muted)">
+                        Dari dasar sampai siap praktik.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="glass p-4 hoverable h-100">
+                  <div class="d-flex gap-3">
+                    <div class="ib c">OK</div>
+                    <div>
+                      <div class="fw-bold">Project Based</div>
+                      <div class="small" style="color: var(--muted)">
+                        Latihan mini project tiap materi.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="glass p-4 p-md-5">
+              <h5 class="fw-bold mb-2">Ringkasan Program</h5>
+              <p class="small mb-3" style="color: var(--muted)">
+                Contoh program kursus yang tersedia:
+              </p>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="badge rounded-pill text-bg-primary"
+                  >Web Programming</span
+                >
+                <span class="badge rounded-pill text-bg-success"
+                  >Data Analysis</span
+                >
+                <span class="badge rounded-pill text-bg-warning text-dark"
+                  >Desain Grafis</span
+                >
+              </div>
+              <hr class="hr-soft my-4" />
+              <p class="mb-0 small" style="color: var(--muted)">
+                Menu <strong>Layanan</strong> memiliki 2 section:
+                <strong>Pendaftaran Anggota</strong> dan
+                <strong>Informasi Layanan</strong>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INFORMASI LAYANAN -->
+    <section id="info-layanan">
+      <div class="container">
+        <div
+          class="d-flex flex-column flex-md-row align-items-md-end justify-content-between gap-2 mb-4"
+        >
+          <div>
+            <h2 class="section-title mb-2">Informasi Layanan</h2>
+            <p class="section-sub mb-0">
+              Fasilitas yang kamu dapat saat kursus di Tik Tak Top.
+            </p>
+          </div>
+          <div class="small" style="color: var(--muted)">Update: 2025</div>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-md-4">
+            <div class="glass p-4 hoverable h-100">
+              <div class="ib a mb-3">⚡</div>
+              <h5 class="fw-bold">Belajar Fleksibel</h5>
+              <p class="mb-0" style="color: var(--muted)">
+                Waktu belajar bisa menyesuaikan kebutuhan peserta.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="glass p-4 hoverable h-100">
+              <div class="ib c mb-3">👨‍🏫</div>
+              <h5 class="fw-bold">Mentor Berpengalaman</h5>
+              <p class="mb-0" style="color: var(--muted)">
+                Bimbingan dan evaluasi agar progres jelas.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="glass p-4 hoverable h-100">
+              <div class="ib b mb-3">🏆</div>
+              <h5 class="fw-bold">Sertifikat</h5>
+              <p class="mb-0" style="color: var(--muted)">
+                Sertifikat diberikan setelah menyelesaikan program.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PENDAFTARAN ANGGOTA (Form 5 kolom) -->
+    <section id="pendaftaran">
+      <div class="container">
+        <div class="row g-4 align-items-start">
+          <div class="col-lg-5">
+            <h2 class="section-title mb-2">Pendaftaran Anggota</h2>
+            <p class="section-sub">
+              Isi formulir pendaftaran peserta kursus Tik Tak Top. Data akan
+              dikirim dan (Modul 8) disimpan ke Google Sheets.
+            </p>
+
+            <div class="glass p-4 mt-3">
+              <div class="d-flex gap-3">
+                <div class="ib d">📌</div>
+                <div>
+                  <div class="fw-bold">Untuk Uji 3 Data</div>
+                  <div class="small" style="color: var(--muted)">
+                    Input minimal 3 peserta dengan pilihan program berbeda (Web
+                    Programming / Desain Grafis / Data Analysis).
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-7">
+            <div class="glass p-4 p-md-5">
+              <div
+                class="d-flex align-items-center justify-content-between mb-3"
+              >
+                <h5 class="fw-bold mb-0">Form Pendaftaran</h5>
+                <span
+                  class="badge rounded-pill"
+                  style="
+                    background: rgba(255, 255, 255, 0.1);
+                    border: 1px solid rgba(255, 255, 255, 0.14);
+                    color: #fff;
+                  "
+                >
+                  Tik Tak Top
+                </span>
+              </div>
+
+              <form id="formDaftar" class="needs-validation" novalidate>
+                <!-- 1. Nama -->
+                <div class="mb-3">
+                  <label class="form-label fw-semibold">Nama Lengkap</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="nama"
+                    placeholder="Masukkan nama lengkap"
+                    required
+                  />
+                  <div class="invalid-feedback">Nama lengkap wajib diisi.</div>
+                </div>
+
+                <!-- 2. Program -->
+                <div class="mb-3">
+                  <label class="form-label fw-semibold">Program Kursus</label>
+                  <select class="form-select" name="program" required>
+                    <option value="" selected disabled>Pilih program</option>
+                    <option>Desain Grafis</option>
+                    <option>Web Programming</option>
+                    <option>Data Analysis</option>
+                  </select>
+                  <div class="invalid-feedback">
+                    Pilih salah satu program kursus.
+                  </div>
+                </div>
+
+                <div class="row g-3">
+                  <!-- 3. NIK/NIS -->
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold"
+                      >NIK / Nomor Induk Siswa</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="nik"
+                      placeholder="Contoh: 1234567890"
+                      required
+                    />
+                    <div class="invalid-feedback">NIK/NIS wajib diisi.</div>
+                  </div>
+
+                  <!-- 5. WhatsApp -->
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold">Nomor WhatsApp</label>
+                    <input
+                      type="tel"
+                      class="form-control"
+                      name="wa"
+                      placeholder="Contoh: 081234567890"
+                      required
+                    />
+                    <div class="invalid-feedback">
+                      Nomor WhatsApp wajib diisi.
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 4. Alamat -->
+                <div class="mt-3 mb-3">
+                  <label class="form-label fw-semibold">Alamat</label>
+                  <textarea
+                    class="form-control"
+                    name="alamat"
+                    rows="3"
+                    placeholder="Masukkan alamat"
+                    required
+                  ></textarea>
+                  <div class="invalid-feedback">Alamat wajib diisi.</div>
+                </div>
+
+                <div class="d-flex gap-2 flex-wrap">
+                  <button type="submit" class="btn btn-fancy text-white">
+                    Kirim Pendaftaran
+                  </button>
+                  <button type="reset" class="btn btn-ghost">Reset</button>
+                  <a href="#koleksi" class="btn btn-ghost">Lihat Kelas</a>
+                </div>
+
+                <div id="status" class="mt-3"></div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KOLEKSI / KELAS -->
+    <section id="koleksi">
+      <div class="container">
+        <div
+          class="d-flex flex-column flex-md-row align-items-md-end justify-content-between gap-2 mb-4"
+        >
+          <div>
+            <h2 class="section-title mb-2">Koleksi</h2>
+            <p class="section-sub mb-0">
+              Pilihan daftar kelas/program kursus yang tersedia di Tik Tak Top.
+            </p>
+          </div>
+          <span
+            class="badge rounded-pill"
+            style="
+              background: rgba(52, 211, 153, 0.18);
+              border: 1px solid rgba(52, 211, 153, 0.25);
+              color: #d1fae5;
+            "
+          >
+            Program Populer
+          </span>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-md-4">
+            <div class="glass p-4 hoverable h-100">
+              <div class="ib a mb-3">🌐</div>
+              <h5 class="fw-bold">Kelas Dasar Web</h5>
+              <p class="mb-0" style="color: var(--muted)">
+                HTML, CSS, Bootstrap dasar untuk pemula.
+              </p>
+              <hr class="hr-soft my-3" />
+              <div class="d-flex gap-2 flex-wrap">
+                <span class="badge rounded-pill text-bg-dark">Beginner</span>
+                <span class="badge rounded-pill text-bg-info text-dark"
+                  >Front-end</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="glass p-4 hoverable h-100">
+              <div class="ib c mb-3">🐍</div>
+              <h5 class="fw-bold">Kelas Python Pemula</h5>
+              <p class="mb-0" style="color: var(--muted)">
+                Python dasar, logika, dan mini project.
+              </p>
+              <hr class="hr-soft my-3" />
+              <div class="d-flex gap-2 flex-wrap">
+                <span class="badge rounded-pill text-bg-dark">Beginner</span>
+                <span class="badge rounded-pill text-bg-success"
+                  >Programming</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="glass p-4 hoverable h-100">
+              <div class="ib b mb-3">📊</div>
+              <h5 class="fw-bold">Kelas Excel untuk Data</h5>
+              <p class="mb-0" style="color: var(--muted)">
+                Rumus, pivot, dan analisis data sederhana.
+              </p>
+              <hr class="hr-soft my-3" />
+              <div class="d-flex gap-2 flex-wrap">
+                <span class="badge rounded-pill text-bg-warning text-dark"
+                  >Office</span
+                >
+                <span class="badge rounded-pill text-bg-success">Data</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-5">
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-md-4">
+            <h5 class="fw-bold">Alamat</h5>
+            <p class="mb-0 foot-muted">
+              Jl. Tik Tak No. 10, Kota Belajar, Indonesia
+            </p>
+          </div>
+          <div class="col-md-4">
+            <h5 class="fw-bold">Contact</h5>
+            <p class="mb-0 foot-muted">WhatsApp: 0812-3456-7890</p>
+            <p class="mb-0 foot-muted">Email: info@tiktaktopcourse.com</p>
+          </div>
+          <div class="col-md-4">
+            <h5 class="fw-bold">Sosial Media</h5>
+            <p class="mb-0 foot-muted">Instagram: @tiktaktopcourse</p>
+            <p class="mb-0 foot-muted">Facebook: Tik Tak Top Course</p>
+          </div>
+        </div>
+
+        <hr class="hr-soft my-4" />
+        <p class="mb-0 text-center foot-muted">© 2025 Tik Tak Top Course</p>
+      </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Bootstrap validation -->
+    <script>
+      (() => {
+        "use strict";
+        const forms = document.querySelectorAll(".needs-validation");
+        Array.from(forms).forEach((form) => {
+          form.addEventListener(
+            "submit",
+            (event) => {
+              if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add("was-validated");
+            },
+            false
+          );
+        });
+      })();
+    </script>
+
+    <!-- Google Sheets connector (Modul 8) -->
+    <script>
+      // NANTI isi URL Web App dari Apps Script di sini:
+      const GOOGLE_SHEETS_WEBAPP_URL = "";
+
+      const form = document.getElementById("formDaftar");
+      const statusEl = document.getElementById("status");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        if (!form.checkValidity()) return;
+
+        if (!GOOGLE_SHEETS_WEBAPP_URL) {
+          statusEl.innerHTML = `<div class="alert alert-warning mb-0">
+          URL Google Sheets Web App belum diisi. (Akan diisi pada Modul 8)
+        </div>`;
+          return;
+        }
+
+        const payload = Object.fromEntries(new FormData(form).entries());
+        statusEl.innerHTML = `<div class="alert alert-info mb-0">Mengirim data...</div>`;
+
+        try {
+          const res = await fetch(GOOGLE_SHEETS_WEBAPP_URL, {
+            method: "POST",
+            mode: "cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+
+          const data = await res.json();
+
+          if (data.status === "success") {
+            statusEl.innerHTML = `<div class="alert alert-success mb-0">Pendaftaran berhasil dikirim ✅</div>`;
+            form.reset();
+            form.classList.remove("was-validated");
+          } else {
+            statusEl.innerHTML = `<div class="alert alert-danger mb-0">Gagal: ${
+              data.message || "Unknown error"
+            }</div>`;
+          }
+        } catch (err) {
+          statusEl.innerHTML = `<div class="alert alert-danger mb-0">Error koneksi: ${err.message}</div>`;
+        }
+      });
+    </script>
+  </body>
+</html>
